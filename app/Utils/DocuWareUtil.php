@@ -9,6 +9,8 @@ class DocuWareUtil
 {
     private $url;
     private $cookie;
+
+    private $client;
     public function __construct($url,$username,$password)
     {
         $this->url = $url;
@@ -29,32 +31,20 @@ class DocuWareUtil
                 $this->cookie .= $cookie['Name'] . "=" . $cookie['Value'] . "; ";
             }
         }
+        $this->client = Http::withHeaders([
+            'Cookie' => $this->cookie,
+            'Accept' => 'application/json'
+        ]);
     }
 
     public function getFiles($fileCabinetId)
     {
-        $response = Http::withHeaders([
-            'Cookie' => $this->cookie,
-            'Accept' => 'application/json'
-        ])->get($this->url . '/DocuWare/Platform/FileCabinets/' . $fileCabinetId . '/Documents');
-        return $response->json();
-    }
-
-    public function getLoginToken()
-    {
-        $response = Http::withOptions([
-            'cookies' => $this->cookieJar->toArray(),
-        ])->get($this->url . '/DocuWare/Platform/Organizations');
-        return $response->json();
+        return $this->client->get($this->url . '/DocuWare/Platform/FileCabinets/' . $fileCabinetId . '/Documents')->json();
     }
 
     public function getFileCabinets()
     {
-        $response = Http::withOptions([
-            'cookies' => $this->cookieJar,
-        ])->get($this->url . '/DocuWare/Platform/FileCabinets');
-        ray($response->body());
-        return $response->json();
+        return $this->client->get($this->url . '/DocuWare/Platform/FileCabinets')->json();
     }
 }
 
