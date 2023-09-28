@@ -18,6 +18,7 @@ class DocuWareTransferRequest extends FormRequest
             'source_username' => 'required|string',
             'source_password' => 'required|string',
             'source_file_cabinet' => 'required|string',
+            'source_document_id' => 'required|int',
             'destination_url' => 'required|string',
             'destination_username' => 'required|string',
             'destination_password' => 'required|string',
