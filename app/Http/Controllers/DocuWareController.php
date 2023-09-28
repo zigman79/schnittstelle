@@ -24,7 +24,7 @@ class DocuWareController extends Controller
         if ($file->getStatusCode() != 200) {
             ray($file->getStatusCode());
 
-            return;
+            return response('Error', $file->getStatusCode());
         }
         $body = $file->getBody()->getContents();
         $filename = ContentDisposition::parse($file->getHeaders()['Content-Disposition'][0]);
@@ -33,12 +33,14 @@ class DocuWareController extends Controller
         if ($response->status() != 200) {
             ray($response->status());
 
-            return;
+            return response('Error', $response->status());
         }
-        ray(json_encode($response->body()));
-        ray($response->body());
-        ray($response->status());
-        ray($dest->getFiles($request->get('destination_file_cabinet')));
+        foreach (json_decode($response->body())->Fields as $field) {
+            if ($field->FieldName == 'DWDOCID') {
+                return response()->json(['document_id' => $field->Item]);
+            }
+        }
+
         /*  $dest = new DocuWareUtil($request->get('destination_url'), $request->get('destination_username'), $request->get('destination_password'));
           ray($dest->getFileCabinets());
           ray($dest->getFiles($request->get('destination_file_cabinet')));
