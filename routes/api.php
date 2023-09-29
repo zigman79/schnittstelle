@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('transfer',[\App\Http\Controllers\DocuWareController::class,'transfer']);
+Route::post('transfer', [\App\Http\Controllers\DocuWareController::class, 'transfer']);
+Route::get('transfer', function () {
+    return 'Working';
+});
