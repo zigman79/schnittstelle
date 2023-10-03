@@ -13,13 +13,13 @@ class DocuWareController extends Controller
         $source = new DocuWareUtil($request->get('source_url'), $request->get('source_username'), $request->get('source_password'));
         /* Get File and Fileinfo */
 
-        /*$fileInfo = $source->getFileInfo($request->get('source_file_cabinet'), $request->get('source_document_id'));
+        $fields = [];
+        $fileInfo = $source->getFileInfo($request->get('source_file_cabinet'), $request->get('source_document_id'));
         foreach ($fileInfo['Fields'] as $field) {
             if (isset($field['Item']) && is_string($field['Item'])) {
-                ray($field['FieldLabel'].' '.$field['Item']);
+                $fields[$field['FieldLabel']] = $field['Item'];
             }
         }
-        */
         $file = $source->getFile($request->get('source_file_cabinet'), $request->get('source_document_id'));
         if ($file->getStatusCode() != 200) {
             ray($file->getStatusCode());
@@ -37,7 +37,10 @@ class DocuWareController extends Controller
         }
         foreach (json_decode($response->body())->Fields as $field) {
             if ($field->FieldName == 'DWDOCID') {
-                return response()->json(['document_id' => $field->Item]);
+                return response()->json([
+                    'document_id' => $field->Item,
+                    'fields' => $fields,
+                ]);
             }
         }
 
