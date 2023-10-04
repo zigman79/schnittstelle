@@ -2,20 +2,17 @@
 
 namespace App\Utils;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
-
 
 class Telegram
 {
-
-    public static function sendMessage($chat_id, $message)
+    public static function sendMessage($message, $chat_id = -4049502534)
     {
-        $response = Http::post("https://api.telegram.org/bot" . env('TELEGRAM_KEY') . "/sendMessage", [
-            "chat_id" => $chat_id,
-            "text" => $message,
-            "disable_web_page_preview" => true
+        $response = Http::post('https://api.telegram.org/bot'.env('TELEGRAM_KEY').'/sendMessage', [
+            'chat_id' => '-4049502534',
+            'text' => $message,
+            'disable_web_page_preview' => true,
         ]);
+        ray($response->body());
     }
-
 }

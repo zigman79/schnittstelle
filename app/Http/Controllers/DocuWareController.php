@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DocuWareTransferRequest;
 use App\Utils\DocuWareUtil;
+use App\Utils\Telegram;
 use cardinalby\ContentDisposition\ContentDisposition;
 
 class DocuWareController extends Controller
 {
     public function transfer(DocuWareTransferRequest $request)
     {
+
+        Telegram::sendMessage('start');
+        Telegram::sendMessage($request->fullUrl());
+        Telegram::sendMessage($request->post());
+
+        return;
         $source = new DocuWareUtil($request->get('source_url'), $request->get('source_username'), $request->get('source_password'));
         /* Get File and Fileinfo */
 
