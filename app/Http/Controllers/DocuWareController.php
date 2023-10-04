@@ -16,7 +16,6 @@ class DocuWareController extends Controller
         Telegram::sendMessage($request->fullUrl());
         Telegram::sendMessage($request->post());
 
-        return;
         $source = new DocuWareUtil($request->get('source_url'), $request->get('source_username'), $request->get('source_password'));
         /* Get File and Fileinfo */
 
