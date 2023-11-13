@@ -12,8 +12,6 @@ class DocuWareController extends Controller
     public function transfer(DocuWareTransferRequest $request)
     {
 
-        Telegram::sendMessage('start');
-        Telegram::sendMessage($request->fullUrl());
         Telegram::sendMessage($request->post());
 
         $source = new DocuWareUtil($request->get('source_url'), $request->get('source_username'), $request->get('source_password'));
@@ -28,8 +26,6 @@ class DocuWareController extends Controller
         }
         $file = $source->getFile($request->get('source_file_cabinet'), $request->get('source_document_id'));
         if ($file->getStatusCode() != 200) {
-            ray($file->getStatusCode());
-
             return response('Error', $file->getStatusCode());
         }
         $body = $file->getBody()->getContents();
@@ -43,16 +39,23 @@ class DocuWareController extends Controller
         }
         foreach (json_decode($response->body())->Fields as $field) {
             if ($field->FieldName == 'DWDOCID') {
+                $dest->updateIndexFields($request->get('destination_file_cabinet'), $field->Item, $request->get('Fields'));
+
                 return response()->json([
                     'document_id' => $field->Item,
                     'fields' => $fields,
                 ]);
             }
         }
+    }
 
-        /*  $dest = new DocuWareUtil($request->get('destination_url'), $request->get('destination_username'), $request->get('destination_password'));
-          ray($dest->getFileCabinets());
-          ray($dest->getFiles($request->get('destination_file_cabinet')));
-        */
+    public function update(DocuWareTransferRequest $request)
+    {
+        $dest = new DocuWareUtil($request->get('destination_url'), $request->get('destination_username'), $request->get('destination_password'));
+        $response = $dest->updateIndexFields($request->get('destination_file_cabinet'), 37, $request->get('Field'));
+        ray($response->status());
+        ray($response->json());
+
+        return $response;
     }
 }

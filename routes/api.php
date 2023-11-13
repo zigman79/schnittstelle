@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('transfer', [\App\Http\Controllers\DocuWareController::class, 'transfer']);
+Route::post('update', [\App\Http\Controllers\DocuWareController::class, 'update']);
 Route::get('transfer', function () {
     return 'Working';
 });
