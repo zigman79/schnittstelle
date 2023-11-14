@@ -20,3 +20,9 @@ Route::fallback(function () {
 Route::put('{any}', function () {
     return response()->json();
 });
+Route::delete('{any}', function () {
+    return response()->json();
+});
+Route::patch('{any}', function () {
+    return response()->json();
+});
