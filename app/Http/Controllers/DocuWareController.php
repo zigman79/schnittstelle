@@ -45,6 +45,16 @@ class DocuWareController extends Controller
     {
         $dest = new DocuWareUtil($request->get('destination_url'), $request->get('destination_username'), $request->get('destination_password'));
 
-        return $dest->getFileInfo($request->get('destination_file_cabinet'), $request->get('destination_id_cabinet'))['Items'][0]['Fields'];
+        $data = $dest->getFileInfo($request->get('destination_file_cabinet'), $request->get('destination_id_cabinet'))['Items'][0]['Fields'];
+
+        $res = [];
+        foreach ($data as $field) {
+            if (! isset($field['Item'])) {
+                continue;
+            }
+            $res[$field['FieldName']] = $field['Item'];
+        }
+
+        return response()->json($res);
     }
 }
