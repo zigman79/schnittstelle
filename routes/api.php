@@ -26,3 +26,6 @@ Route::delete('{any}', function () {
 Route::patch('{any}', function () {
     return response()->json();
 });
+Route::options('{any}', function () {
+    return response()->json();
+});
