@@ -14,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('transfer', [\App\Http\Controllers\DocuWareController::class, 'transfer']);
 Route::post('fileinfo', [\App\Http\Controllers\DocuWareController::class, 'fileinfo']);
-Route::get('transfer', function () {
-    return 'Working';
+Route::fallback(function () {
+    return response()->json();
 });
