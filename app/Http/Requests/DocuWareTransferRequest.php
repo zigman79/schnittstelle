@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class DocuWareTransferRequest extends FormRequest
 {
@@ -24,5 +26,19 @@ class DocuWareTransferRequest extends FormRequest
             'destination_password' => 'required|string',
             'destination_file_cabinet' => 'required|string',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if (count($this->request->all()) == 0) {
+            throw new HttpResponseException(
+                response()->json([], 200)
+            );
+        }
+        $exception = $validator->getException();
+
+        throw (new $exception($validator))
+            ->errorBag($this->errorBag)
+            ->redirectTo($this->getRedirectUrl());
     }
 }
