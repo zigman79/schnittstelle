@@ -17,3 +17,6 @@ Route::post('fileinfo', [\App\Http\Controllers\DocuWareController::class, 'filei
 Route::fallback(function () {
     return response()->json();
 });
+Route::put('{any}', function () {
+    return response()->json();
+});
