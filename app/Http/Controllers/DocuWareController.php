@@ -39,7 +39,7 @@ class DocuWareController extends Controller
         }
         foreach (json_decode($response->body())->Fields as $field) {
             if ($field->FieldName == 'DWDOCID') {
-                $dest->updateIndexFields($request->get('destination_file_cabinet'), $field->Item, $request->get('Fields'));
+                $dest->updateIndexFields($request->get('destination_file_cabinet'), $field->Item, $request->get('Field'));
 
                 return response()->json([
                     'document_id' => $field->Item,
