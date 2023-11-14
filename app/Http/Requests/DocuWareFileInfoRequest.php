@@ -29,7 +29,10 @@ class DocuWareFileInfoRequest extends FormRequest
     {
         if (count($this->request->all()) == 0) {
             throw new HttpResponseException(
-                response()->json([], 200)
+                response()->json([
+                    'Status' => 'OK',
+                    'Reason' => 'Everything is fine',
+                ])
             );
         }
         $exception = $validator->getException();

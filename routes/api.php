@@ -15,17 +15,32 @@ use Illuminate\Support\Facades\Route;
 Route::post('transfer', [\App\Http\Controllers\DocuWareController::class, 'transfer']);
 Route::post('fileinfo', [\App\Http\Controllers\DocuWareController::class, 'fileinfo']);
 Route::fallback(function () {
-    return response()->json();
+    return response()->json([
+        'Status' => 'OK',
+        'Reason' => 'Everything is fine',
+    ]);
 });
 Route::put('{any}', function () {
-    return response()->json();
+    return response()->json([
+        'Status' => 'OK',
+        'Reason' => 'Everything is fine',
+    ]);
 });
 Route::delete('{any}', function () {
-    return response()->json();
+    return response()->json([
+        'Status' => 'OK',
+        'Reason' => 'Everything is fine',
+    ]);
 });
 Route::patch('{any}', function () {
-    return response()->json();
+    return response()->json([
+        'Status' => 'OK',
+        'Reason' => 'Everything is fine',
+    ]);
 });
 Route::options('{any}', function () {
-    return response()->json();
+    return response()->json([
+        'Status' => 'OK',
+        'Reason' => 'Everything is fine',
+    ]);
 });
