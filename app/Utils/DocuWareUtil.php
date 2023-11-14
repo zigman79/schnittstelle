@@ -23,7 +23,6 @@ class DocuWareUtil
         $hash = md5($this->url);
         $token = Token::whereUrl($hash)->first();
         if ($token == null || $token->expires_at->lessThan(now())) {
-            dump('no token');
             if ($token == null) {
                 $token = new Token();
                 $token->url = $hash;
